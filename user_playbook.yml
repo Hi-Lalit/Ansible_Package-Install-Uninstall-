@@ -1,12 +1,6 @@
 ---
 - name: user_Playbook
   hosts: localhost
-  vars_prompt:
-
-  - name: package_name
-
-    prompt: Enter the package name to install/uninstall
-
   become_method: su
   become_exe: sudo su -
   tasks:
