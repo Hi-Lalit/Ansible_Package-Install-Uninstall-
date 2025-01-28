@@ -1,0 +1,23 @@
+---
+- name: First Playbook
+  hosts: localhost
+  become_method: su
+  become_exe: sudo su -
+  tasks:
+  - name: install tree
+    become: yes
+    apt:
+      name: tree
+      state: present
+    tags: install_tree
+  - name: uninstall tree
+    become: yes
+    apt:
+      name: tree
+      state: absent
+    tags: uninstall_tree
+  - name: ping localhost
+    ping:
+  - name: Print a message
+    debug:
+      msg: "Hello, World!"
