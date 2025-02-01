@@ -1,0 +1,22 @@
+---
+- name: First Playbook
+  hosts: localhost
+  become_method: su
+  become_exe: sudo su -
+  vars:
+  - packages: [ 'nginx', 'redis-server' ]
+  tasks:
+  - name: install tree
+    become: yes
+    apt:
+      loop: "{{ packages }}"
+      name: { ? { packages } }
+      state: present
+
+    tags: install_tree
+
+  - name: ping localhost
+    ping:
+  - name: Print a message
+    debug:
+      msg: "Hello, World!"
