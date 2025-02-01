@@ -3,19 +3,25 @@
   hosts: localhost
   become_method: su
   become_exe: sudo su -
+  vars_files:
+  - package_list.yml
   tasks:
-  - name: "{{ package_name }}"
+  - name: install_package
     become: yes
     apt:
-      name: "{{ package_name }}"
+      name: "{{ item }}"
       state: present
+    loop: "{{ package_to_install }}"
     tags: install_package
-  - name: "{{ package_name }}"
+
+  - name: uninstall_package
     become: yes
     apt:
-      name: "{{ package_name }}"
+      name: "{{ item }}"
       state: absent
+    loop: "{{ package_to_uninstall }}"
     tags: uninstall_package
+
   - name: ping localhost
     ping:
   - name: Print a message
