@@ -1,10 +1,7 @@
----
-vars:
-- package_to_install:
-  - nginx
-  - redis-server
+package_to_install:
+- nginx
+- redis-server
 
-- package_to_uninstall:
-  - nginx
-  - apache2
-  - mysql-server
+package_to_uninstall:
+- nginx
+- redis-server

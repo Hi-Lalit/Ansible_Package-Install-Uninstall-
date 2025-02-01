@@ -1,12 +1,15 @@
 ---
-- name: user_Playbook
+- name: User Playbook
   hosts: localhost
+  become: yes
   become_method: su
   become_exe: sudo su -
   vars_files:
   - package_list.yml
+
   tasks:
-  - name: install_package
+  # install packages
+  - name: Install packages
     become: yes
     apt:
       name: "{{ item }}"
@@ -14,7 +17,8 @@
     loop: "{{ package_to_install }}"
     tags: install_package
 
-  - name: uninstall_package
+  # uninstall packages
+  - name: Uninstall packages
     become: yes
     apt:
       name: "{{ item }}"
@@ -22,8 +26,10 @@
     loop: "{{ package_to_uninstall }}"
     tags: uninstall_package
 
-  - name: ping localhost
+  - name: Ping localhost
     ping:
+
+
   - name: Print a message
     debug:
       msg: "Hello, World!"
