@@ -1,6 +1,7 @@
 package_to_install:
 - nginx
 - redis-server
+- tree
 
 package_to_uninstall:
 - nginx
