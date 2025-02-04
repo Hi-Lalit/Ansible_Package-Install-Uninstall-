@@ -1,0 +1,50 @@
+# install 5 packages and store the result in a list after that print on the screen with package name 
+# and installation status
+---
+- name: install package and store result in a list
+  hosts: localhost
+  become_method: su
+  become_exe: sudo su -
+  tasks:
+  # install packages
+  - name: Install packages
+    become: yes
+    apt:
+      name: "{{ item }}"
+      state: present
+    loop: "{{ package_to_install }}"
+    register: package_status
+    tags: install_package
+
+  # print package result
+
+  - name: Print package installation results
+    debug:
+      msg: "Package '{{ item.item }}' installation status: {{ item }}"
+    loop: "{{ package_status.results }}"
+    tags: print_package_result
+
+  #print package name
+
+  - name: Print package name
+    debug:
+      msg: "Installed package: {{ item }}"
+    loop: "{{ package_to_install }}"
+    tags: print_package_name
+
+  # print invalid package name
+  - name: Print invalid package name
+    debug:
+      msg: "Invalid package: {{ invalid_package }}"
+    when: invalid_package is defined
+    tags: print_invalid_package_name
+
+  # uninstall packages
+
+  - name: Uninstall_packages
+    become: yes
+    apt:
+      name: "{{ item }}"
+      state: absent
+    loop: "{{ package_to_uninstall }}"
+    tags: uninstall_package
