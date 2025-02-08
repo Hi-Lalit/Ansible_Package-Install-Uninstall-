@@ -5,6 +5,7 @@
   hosts: localhost
   become_method: su
   become_exe: sudo su -
+  ignore_errors: yes
   tasks:
   # install packages
   - name: Install packages
@@ -22,7 +23,7 @@
     debug:
       msg: "Package '{{ item.item }}' installation status: {{ item }}"
     loop: "{{ package_status.results }}"
-    tags: print_package_result
+    tags: install_package
 
   #print package name
 
@@ -30,14 +31,14 @@
     debug:
       msg: "Installed package: {{ item }}"
     loop: "{{ package_to_install }}"
-    tags: print_package_name
+    tags: install_package
 
   # print invalid package name
   - name: Print invalid package name
     debug:
-      msg: "Invalid package: {{ invalid_package }}"
+      msg: "Invalid package: {{ package_to_install }}"
     when: invalid_package is defined
-    tags: print_invalid_package_name
+    tags: install_package
 
   # uninstall packages
 
